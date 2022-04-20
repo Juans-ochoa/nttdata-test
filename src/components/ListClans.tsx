@@ -5,10 +5,13 @@ import Filters from "./Filters";
 import { Filter } from "../types";
 import { Clan } from "./Clan";
 import { ClanInterface } from "../types";
+import { Spinner } from "./Spinner";
+import { NoData } from "./NoData";
 
 interface ListClansState {
   filter: Filter;
   clans: Array<ClanInterface>;
+  spinner: boolean;
 }
 
 interface AxiosClans {
@@ -25,6 +28,7 @@ export default function ListClans() {
     minClanLevel: 2,
   });
   const [clans, setClans] = useState<ListClansState["clans"]>([]);
+  const [loader, setloader] = useState<ListClansState["spinner"]>(false);
 
   const handelFilter = (dataFilter: Filter): void => {
     setFilter(dataFilter);
@@ -44,24 +48,29 @@ export default function ListClans() {
       })
       .then((res) => {
         const { data } = res;
-
+        setloader(true);
         setClans(data.items);
+        setloader(false);
       });
   }, [filter]);
   return (
     <div>
       <Filters filter={filter} updateFilter={handelFilter} />
-      <section className='row d-flex justify-content-center'>
-        {clans.length > 0 ? (
-          <>
-            {clans.map((el: any) => (
-              <Clan key={el.tag} clan={el} />
-            ))}
-          </>
-        ) : (
-          <p>No data</p>
-        )}
-      </section>
+      {loader ? (
+        <Spinner />
+      ) : (
+        <section className='row d-flex justify-content-center'>
+          {clans.length > 0 ? (
+            <>
+              {clans.map((el: ClanInterface) => (
+                <Clan key={el.tag} clan={el} />
+              ))}
+            </>
+          ) : (
+            <NoData />
+          )}
+        </section>
+      )}
     </div>
   );
 }

@@ -22,37 +22,41 @@ export const Clan = ({ clan }: Props) => {
             className='card__level_img'
           />
         )}
-        <div className='clan__info'>
-          <h4>{clan.name}</h4>
-          <p>
-            Level:{" "}
-            <span className='badge rounded-pill bg-secondary'>
-              {clan.clanLevel}
+        <h4>{clan.name}</h4>
+        <div className='clan__info d-flex justify-space-betweend flex-wrap'>
+          <p className='m-1'>
+            <strong>Level:</strong>
+            <span className='badge bg-secondary mx-1'>{clan.clanLevel}</span>
+          </p>
+          <p className='m-1'>
+            <strong>Members:</strong>{" "}
+            <span className='badge bg-dark text-white mx-1'>
+              {clan.members}
             </span>
           </p>
-          <p>
-            Members: <span>{clan.members}</span>
-          </p>
-          <p>
-            Requiered Trophies: <span>{clan.requiredTrophies}</span>
+          <p className='m-1'>
+            <strong>Requiered Trophies:</strong>{" "}
+            <span className='badge bg-primary mx-1'>
+              {clan.requiredTrophies}
+            </span>
           </p>
         </div>
         <div className='clan__stadistics d-flex justify-space-betweend flex-wrap'>
-          <p className='mx-1'>
-            Points:{" "}
-            <span className='badge rounded-pill bg-primary'>
+          <p className='m-1'>
+            <strong>Points:</strong>
+            <span className='badge rounded-pill bg-primary mx-1'>
               {clan.clanPoints}
             </span>
           </p>
-          <p className='mx-1'>
-            Wars win:{" "}
-            <span className='badge rounded-pill bg-success'>
+          <p className='m-1'>
+            <strong>Wars win:</strong>
+            <span className='badge rounded-pill bg-success mx-1'>
               {clan.warWins}
             </span>
           </p>
-          <p className='mx-1'>
-            Wars lose:{" "}
-            <span className='badge rounded-pill bg-danger'>
+          <p className='m-1'>
+            <strong>Wars lose:</strong>
+            <span className='badge rounded-pill bg-danger mx-1'>
               {clan.warLosses || ""}
             </span>
           </p>

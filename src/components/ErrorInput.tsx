@@ -1,13 +1,15 @@
 interface Props {
-  message: string;
-  error: true;
+  errorMessge: {
+    message: string;
+    error: true;
+  };
 }
 
-export const ErrorInput = ({ message, error }: Props) => {
+export const ErrorInput = ({ errorMessge }: Props) => {
   return (
     <>
-      {message !== "" && error && (
-        <div className='invalid-feedback'>{message}</div>
+      {errorMessge.message !== "" && errorMessge.error && (
+        <div className='invalid-feedback'>{errorMessge.message}</div>
       )}
     </>
   );

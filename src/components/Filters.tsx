@@ -14,31 +14,15 @@ interface Props {
   updateFilter: (dataFilter: Filter) => void;
 }
 
-type Error = {
-  message: string;
-  error: boolean;
-};
-
-interface ErrorsFilds {
-  name: Error;
-  minClanLevel: Error;
-}
-
 const INITIAL_STATE_FITER = {
   name: "",
   locationId: 0,
   minClanLevel: 2,
 };
 
-const INITIAL_STATE_ERRORS = {
-  name: { message: "", error: false },
-  minClanLevel: { message: "", error: false },
-};
-
 export default function Filters({ filter, updateFilter }: Props) {
   const [dataFilter, setDataFilter] = useState(filter);
   const [locations, setLocations] = useState([]);
-  const [errors, setErrors] = useState<ErrorsFilds>(INITIAL_STATE_ERRORS);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement> | any,
@@ -61,46 +45,13 @@ export default function Filters({ filter, updateFilter }: Props) {
     }));
   };
 
-  const validateFilds = (e: React.FocusEvent<HTMLInputElement, Element>) => {
-    let message: string = "";
-    const nameFild: string = e.target.name;
-
-    if (nameFild === "name") {
-      message =
-        dataFilter.name === ""
-          ? "This fild cann't be empy"
-          : dataFilter.name.length < 3
-          ? "This fild needs min three letters"
-          : "";
-    }
-
-    if (nameFild === "minClanLevel") {
-      message = isNaN(dataFilter.minClanLevel)
-        ? "This fild cann't be string"
-        : dataFilter.minClanLevel < 2
-        ? "This fild cann't be less 2"
-        : "";
-    }
-
-    setErrors((prev) => ({
-      ...prev,
-      [nameFild]: { message, error: true },
-    }));
-  };
-
   const clearFilter = () => {
     setDataFilter(INITIAL_STATE_FITER);
-    setErrors(INITIAL_STATE_ERRORS);
     updateFilter(INITIAL_STATE_FITER);
   };
 
   const formFilter = (e: any) => {
     e.preventDefault();
-    if (
-      (errors.name.message !== "" && errors.name.error) ||
-      (errors.minClanLevel.message !== "" && errors.minClanLevel.error)
-    )
-      return;
     updateFilter(dataFilter);
   };
 
@@ -127,11 +78,9 @@ export default function Filters({ filter, updateFilter }: Props) {
               type='search'
               onChange={(e) => handleChange(e)}
               value={dataFilter.name}
-              onBlur={validateFilds}
               className='form-control'
               placeholder='Name'
             />
-            {/* <ErrorInput error={({ ...errors.name })} /> */}
           </article>
           <article className='col'>
             <Select
@@ -151,7 +100,6 @@ export default function Filters({ filter, updateFilter }: Props) {
               name='minClanLevel'
               onChange={(e) => handleChange(e)}
               value={dataFilter.minClanLevel}
-              onBlur={validateFilds}
               className='form-control'
               placeholder='minClanLevel'
               min={INITIAL_STATE_FITER.minClanLevel}
@@ -160,13 +108,13 @@ export default function Filters({ filter, updateFilter }: Props) {
           <article className='col'>
             <button
               type='submit'
-              className='btn btn-info fw-bold text-white rounded-pill'>
+              className='btn btn-outline-primary fw-bold rounded-pill mx-1 font__size_14'>
               Search
             </button>
             <button
               type='button'
               onClick={clearFilter}
-              className='btn btn-dark fw-bold text-white rounded-pill'>
+              className='btn btn-outline-dark fw-bold rounded-pill mx-1 font__size_14'>
               Clear filter
             </button>
           </article>
